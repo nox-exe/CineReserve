@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 17, 2026 at 06:23 PM
+-- Generation Time: Jul 18, 2026 at 01:20 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -46,12 +46,12 @@ CREATE TABLE `movies` (
 --
 
 INSERT INTO `movies` (`movie_id`, `title`, `description`, `genre`, `duration_minutes`, `rating`, `poster_url`, `release_date`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'The Odyssey', 'Odysseus, the legendary King of Ithaca, embarks on a long and perilous journey home following the Trojan War. Throughout his voyage, he is forced to confront the whims of gods, mythological monsters, and trials that stretch both his cunning and his humanity to the breaking point.', 'Adventure', 173, 'R-13', 'posters/the-odyssey', '2026-07-15', 'now_showing', '2026-07-17 15:44:55', '2026-07-17 16:13:38'),
-(2, 'Doraemon the Movie: New Nobita and the Castle of the Undersea Devil', 'Nobita and friends finds a secret underwater castle packed with mysteries and riches. With Doraemon\'s high-tech gadgets, they dive into an ocean adventure mixing humor, teamwork, and imagination in a breathtaking aquatic world.', 'Animation', 102, 'G', 'posters/doraemon-undersea', '2026-07-15', 'now_showing', '2026-07-17 15:44:55', '2026-07-17 16:13:47'),
-(3, 'Moana', 'Teenage Moana answers the Ocean\'s call and, for the first time, voyages beyond the reef of her island of Motunui with infamous demigod Maui on an unforgettable journey to restore prosperity to her people.', 'Adventure', 115, 'PG', 'posters/moana', '2026-07-15', 'now_showing', '2026-07-17 15:44:55', '2026-07-17 16:13:57'),
-(4, 'Spider-Man: Brand New Day', 'Fighting crime full-time as Spider-Man in a world that doesn\'t remember him—and the pressure of seeing his old friends move on without him—sparks a change in Peter Parker he may not have the power to control. But that transformation might also be the only thing that can stop a shocking new threat to the city and those he loves - a powerful villain no one can even see.', 'Action', 144, 'PG-13', 'posters/spider-man-brand-new-day', '2026-07-29', 'upcoming', '2026-07-17 15:44:55', '2026-07-17 16:14:30'),
-(5, 'Minions & Monsters', '“Minion & Monsters” is the rambunctious, ridiculous and totally true story of how the Minions conquered Hollywood, became movie stars, lost everything, unleashed monsters onto the world and then banded together to try and save the planet from the mayhem they had just created.', 'Animation', 89, 'PG', 'posters/minions-monsters', '2026-06-30', 'now_showing', '2026-07-17 15:44:55', '2026-07-17 16:15:02'),
-(6, 'Insidious: Out of the Further', 'A trio of stalkers infiltrate a quiet suburb and force a new family into the astral plane, where they uncover a terrifying truth: the Further is bleeding into the real world.', 'Horror', 99, 'PG-13', 'posters/insidious-out-of-the-further', '2026-08-19', 'upcoming', '2026-07-17 15:44:55', '2026-07-17 16:15:33');
+(1, 'The Odyssey', 'Odysseus, the legendary King of Ithaca, embarks on a long and perilous journey home following the Trojan War. Throughout his voyage, he is forced to confront the whims of gods, mythological monsters, and trials that stretch both his cunning and his humanity to the breaking point.', 'Adventure', 173, 'R-13', 'Assets\\Movie-posters\\Odyssey.jpg', '2026-07-15', 'now_showing', '2026-07-17 15:44:55', '2026-07-17 22:48:50'),
+(2, 'Doraemon the Movie: New Nobita and the Castle of the Undersea Devil', 'Nobita and friends finds a secret underwater castle packed with mysteries and riches. With Doraemon\'s high-tech gadgets, they dive into an ocean adventure mixing humor, teamwork, and imagination in a breathtaking aquatic world.', 'Animation', 102, 'G', 'Assets\\Movie-posters\\Doraemon.jpg', '2026-07-15', 'now_showing', '2026-07-17 15:44:55', '2026-07-17 22:48:33'),
+(3, 'Moana', 'Teenage Moana answers the Ocean\'s call and, for the first time, voyages beyond the reef of her island of Motunui with infamous demigod Maui on an unforgettable journey to restore prosperity to her people.', 'Adventure', 115, 'PG', 'Assets\\Movie-posters\\Moana.jpg', '2026-07-15', 'now_showing', '2026-07-17 15:44:55', '2026-07-17 22:49:03'),
+(4, 'Spider-Man: Brand New Day', 'Fighting crime full-time as Spider-Man in a world that doesn\'t remember him—and the pressure of seeing his old friends move on without him—sparks a change in Peter Parker he may not have the power to control. But that transformation might also be the only thing that can stop a shocking new threat to the city and those he loves - a powerful villain no one can even see.', 'Action', 144, 'PG-13', 'Assets\\Movie-posters\\Spiderman.jpg', '2026-07-29', 'upcoming', '2026-07-17 15:44:55', '2026-07-17 22:49:14'),
+(5, 'Minions & Monsters', '“Minion & Monsters” is the rambunctious, ridiculous and totally true story of how the Minions conquered Hollywood, became movie stars, lost everything, unleashed monsters onto the world and then banded together to try and save the planet from the mayhem they had just created.', 'Animation', 89, 'PG', 'Assets\\Movie-posters\\Minions.webp', '2026-06-30', 'now_showing', '2026-07-17 15:44:55', '2026-07-17 22:48:24'),
+(6, 'Insidious: Out of the Further', 'A trio of stalkers infiltrate a quiet suburb and force a new family into the astral plane, where they uncover a terrifying truth: the Further is bleeding into the real world.', 'Horror', 99, 'PG-13', 'Assets\\Movie-posters\\Insidious.jpg', '2026-08-19', 'upcoming', '2026-07-17 15:44:55', '2026-07-17 22:49:30');
 
 -- --------------------------------------------------------
 
@@ -73,7 +73,9 @@ CREATE TABLE `reservations` (
 --
 
 INSERT INTO `reservations` (`reservation_id`, `user_id`, `schedule_id`, `total_amount`, `status`, `reservation_date`) VALUES
-(1, 1, 1, 700.00, 'confirmed', '2026-07-17 15:45:21');
+(1, 1, 1, 700.00, 'confirmed', '2026-07-17 15:45:21'),
+(2, 1, 7, 1900.00, 'confirmed', '2026-07-17 23:02:13'),
+(3, 1, 3, 300.00, 'confirmed', '2026-07-17 23:02:13');
 
 -- --------------------------------------------------------
 
@@ -93,7 +95,13 @@ CREATE TABLE `reservation_seats` (
 
 INSERT INTO `reservation_seats` (`reservation_seat_id`, `reservation_id`, `seat_id`) VALUES
 (1, 1, 1),
-(2, 1, 2);
+(2, 1, 2),
+(4, 2, 1561),
+(5, 2, 1562),
+(6, 2, 1563),
+(7, 2, 1564),
+(8, 2, 1565),
+(9, 3, 121);
 
 -- --------------------------------------------------------
 
@@ -2468,13 +2476,13 @@ ALTER TABLE `movies`
 -- AUTO_INCREMENT for table `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `reservation_seats`
 --
 ALTER TABLE `reservation_seats`
-  MODIFY `reservation_seat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `reservation_seat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `schedules`
