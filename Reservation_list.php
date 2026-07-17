@@ -64,8 +64,8 @@
 
         <section class="First">
 
-            <div class="First-timer">
-
+            <div class="Screening">
+            89 Mins
             </div>
 
             <div class="First-img-container">
@@ -87,8 +87,8 @@
 
         <section class="Second">
 
-            <div class="Second-timer">
-
+            <div class="Screening">
+            102 Mins
             </div>
 
             <div class="Second-img-container">
@@ -110,8 +110,8 @@
 
         <section class="Third">
 
-            <div class="Third-timer">
-
+            <div class="Screening">
+            99 Mins
             </div>
 
             <div class="Third-img-container">
@@ -133,8 +133,8 @@
 
         <section class="Fourth">
 
-            <div class="Fourth-timer">
-
+            <div class="Screening">
+            115 Mins
             </div>
 
             <div class="Fourth-img-container">
@@ -156,8 +156,8 @@
 
         <section class="Fifth">
 
-            <div class="Fifth-timer">
-
+            <div class="Screening">
+            173 Mins
             </div>
 
             <div class="Fifth-img-container">
@@ -179,8 +179,8 @@
 
         <section class="Sixth">
 
-            <div class="Sixth-timer">
-
+            <div class="Screening">
+            144 Mins
             </div>
 
             <div class="Sixth-img-container">
