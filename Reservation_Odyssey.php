@@ -24,27 +24,6 @@
         </a>
         </li>
 
-        <li>
-        <img src="Assets/UI-icons/Movie.png" class="Movie-icon" width="30px">
-        <a href="Upcoming.php">
-        Upcoming Movies
-        </a>
-        </li>
-
-        <li>
-        <img src="Assets/UI-icons/Screening.png" class="Screening-icon" width="29px">
-        <a href="Screening.php">
-        Screening
-        </a>
-        </li>
-
-        <li>
-        <img src="Assets/UI-icons/Locations.png" class="Locations-icon" width="29px">
-        <a href="Locations.php">
-        Theather Locations
-        </a>
-        </li>
-
         <li class="Logout">
         <img src="Assets/UI-icons/Logout.png" class="Logout-icon" width="26px">
         <a href="Login.php">
