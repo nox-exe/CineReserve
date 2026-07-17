@@ -73,13 +73,6 @@ $conn->close();
         </a>
         </li>
 
-        <li class="Logout">
-        <img src="Assets/UI-icons/Logout.png" class="Logout-icon" width="26px">
-        <a href="Login.php">
-        Log Out
-        </a>
-        </li>
-
     </ul>
     </nav>
     <main class="Main">
