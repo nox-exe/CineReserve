@@ -125,12 +125,7 @@ nav a {
     margin-top: 40px;
 }
 
-.First-timer,
-.Second-timer,
-.Third-timer,
-.Fourth-timer,
-.Fifth-timer,
-.Sixth-timer {
+.Screening {
     position: absolute;
 
     top: 15px;
@@ -145,6 +140,9 @@ nav a {
     display: flex;
     align-items: center;
     justify-content: center;
+
+    
+    font-family: "myFont";
 }
 
 .Reserve-container {
