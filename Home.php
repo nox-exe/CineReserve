@@ -19,7 +19,7 @@
 
         <li>
         <img src="Assets/UI-icons/Reservation.png" class="Reservation-icon" width="30px">
-        <a href="Reservation.php">
+        <a href="Reservation_list.php">
         Reservation
         </a>
         </li>
