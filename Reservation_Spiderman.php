@@ -123,6 +123,19 @@
         <option value="8">Seat 8</option>
     </select>
 
+        <!-- HOW MANY SEATS -->
+    <label>Number of Seats:</label>
+    <select id="column">
+        <option value="1">Seat 1</option>
+        <option value="2">Seat 2</option>
+        <option value="3">Seat 3</option>
+        <option value="4">Seat 4</option>
+        <option value="5">Seat 5</option>
+        <option value="6">Seat 6</option>
+        <option value="7">Seat 7</option>
+        <option value="8">Seat 8</option>
+    </select>
+
 
     <button class="confirm-seat">
         Confirm Seat
