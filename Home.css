@@ -119,8 +119,6 @@ body {
     margin-top:40px;
 }
 
-
-/* COUNTDOWN */
 .First-timer{
 
     position:absolute;
@@ -343,7 +341,7 @@ body {
 
     margin:0;
 
-    font-family:"myFont";
+    font-family: "myFont", serif;
     font-size:25px;
 }
 
@@ -358,13 +356,9 @@ body {
 }
 
 .Options {
-
     width:340px;
-
     background:#fdfbfa;
-
     background-image:linear-gradient(165deg,#fdfbfa,#dfabab);
-
     border-radius:25px;
 
     padding:25px;
@@ -379,18 +373,14 @@ body {
 
 
 .Movie-search {
-
     width:88%;
-
     height:45px;
-
     border:none;
-
     border-radius:25px;
 
     padding:0 20px;
 
-    font-family:"myFont";
+    font-family: "myFont", serif;
 
     font-size:17px;
 
@@ -398,13 +388,9 @@ body {
 
 
 .Genre-select {
-
     width:100%;
-
     height:45px;
-
     border:none;
-
     border-radius:25px;
 
     padding:0 20px;
