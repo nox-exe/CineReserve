@@ -12,7 +12,7 @@
 </head>
 <body>
     <nav class="Navigation">
-        <a href="Home.html">
+        <a href="Home.php">
         <img src="" class="Logo">
         </a>
     <ul>
