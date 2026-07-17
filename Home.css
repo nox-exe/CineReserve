@@ -1,0 +1,418 @@
+@font-face {
+    font-family: "myFont";
+    src: url("Assets/Font/glacial-indifference/GlacialIndifference-Regular.otf");
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "myFont";
+    src: url("Assets/Font/glacial-indifference/GlacialIndifference-Bold.otf");
+    font-weight: 700;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 100vh;
+
+    background: #fdfbfa;
+    background-image: linear-gradient(165deg, #fdfbfa, #dfabab);
+    padding: 30px 20px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+
+    height: 100%;
+    padding: 10px;
+}
+
+nav ul li {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 15px 0;
+}
+
+nav a {
+    color: #272727;
+    text-decoration: none;
+    font-size: 20px;
+    font-family: "myFont", serif;
+}
+
+.Logout {
+    margin-top: auto;
+}
+
+body {
+    background: #bd5b62;
+    color: #222;
+    margin: 0;
+}
+
+.Main {
+    margin-left: 280px;
+    padding: 20px;
+}
+
+.welcome-header {
+    background: #fdfbfa;
+    background-image: linear-gradient(165deg, #fdfbfa, #dfabab);
+
+    width: 90%;
+    border-radius: 60px;
+    padding: 1px 40px;
+    margin-left: 20px;
+}
+
+.welcome-header h3 {
+    color: #272727;
+    font-size: 25px;
+    font-family: "myFont", serif;
+}
+
+.Popular-movies {
+    color: #f1f1f1;
+    font-size: 35px;
+    font-family: "myFont", serif;
+}
+
+.First-Movie{
+    width:310px;
+}
+
+
+/* POSTER BOX */
+.First-Popular{
+
+    width:310px;
+    height:430px;
+
+    padding:15px;
+    box-sizing:border-box;
+
+    background-image:linear-gradient(165deg,#fdfbfa,#dfabab);
+
+    border-radius:25px;
+
+    position:relative;
+}
+
+
+.First-img-container img{
+
+    width:280px;
+    height:360px;
+
+    object-fit:cover;
+
+    border-radius:20px;
+
+    margin-top:40px;
+}
+
+
+/* COUNTDOWN */
+.First-timer{
+
+    position:absolute;
+
+    top:15px;
+    right:15px;
+
+    background:white;
+
+    width:90px;
+    height:25px;
+
+    border-radius:20px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-family:"myFont";
+    font-size:14px;
+
+    color:#272727;
+}
+
+
+/* TITLE UNDER POSTER */
+.First-title-Container{
+
+    width:310px;
+
+    background-image:linear-gradient(165deg,#fdfbfa,#dfabab);
+
+    border-radius:25px;
+
+    margin-top:20px;
+
+    padding:8px;
+
+    box-sizing:border-box;
+
+    text-align:center;
+
+    font-family:"myFont";
+}
+
+
+.First-title-Container h2{
+
+    margin:0;
+
+    font-size:22px;
+
+}
+
+.Movie-layout{
+    display:flex;
+    gap:40px;
+    align-items:flex-start;
+}
+
+
+/* RIGHT SIDE */
+.Movie-list{
+    display:flex;
+    flex-direction:column;
+    gap:50px;
+}
+
+
+.Second-Popular,
+.Third-Popular,
+.Fourth-Popular{
+
+    width:1180px;
+    height:130px;
+
+    background:linear-gradient(90deg,#dfabab,#f1cccc);
+
+    border-radius:25px;
+
+    display:flex;
+    align-items:center;
+
+    overflow:hidden;
+
+    position:relative;
+}
+
+
+.Second-Popular img,
+.Third-Popular img,
+.Fourth-Popular img{
+
+    width:200px;
+    height:100%;
+
+    object-fit:cover;
+
+        -webkit-mask-image: linear-gradient(
+        to right,
+        black 50%,
+        transparent 100%
+    );
+
+        mask-image: linear-gradient(
+        to right,
+        black 50%,
+        transparent 100%
+    );
+}
+
+.Second-Popular h2,
+.Third-Popular h2,
+.Fourth-Popular h2 {
+
+    margin:0;
+
+    font-family:"myFont";
+    font-size:25px;
+}
+
+.Movie-info {
+    margin-left: 30px;
+    flex: 1;          
+    min-width: 0;
+}
+
+.Movie-info p {
+    margin-top: 8px;
+
+    width: auto;        
+    white-space: nowrap; 
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    color: #272727;
+    font-family: "myFont";
+    font-size: 16px;
+}
+
+.Movie-time {
+
+    position:absolute;
+
+    top:15px;
+    right:15px;
+
+    background:white;
+
+    width:90px;
+    height:25px;
+
+    border-radius:20px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-family:"myFont";
+    font-size:14px;
+
+    color:#272727;
+}
+
+.Showing-title {
+    color: #f1f1f1;
+    font-size: 35px;
+    font-family: "myFont", serif;
+}
+
+.Showing-list{
+    display:flex;
+    flex-direction:column;
+    gap:50px;
+}
+
+.Showing-one,
+.Showing-two{
+
+    width:1100px;
+    height:130px;
+
+    background:linear-gradient(90deg,#dfabab,#f1cccc);
+
+    border-radius:25px;
+
+    display:flex;
+    align-items:center;
+
+    overflow:hidden;
+
+    position:relative;
+}
+
+
+.Showing-one img,
+.Showing-two img{
+
+    width:200px;
+    height:100%;
+
+    object-fit:cover;
+
+        -webkit-mask-image: linear-gradient(
+        to right,
+        black 50%,
+        transparent 100%
+    );
+
+        mask-image: linear-gradient(
+        to right,
+        black 50%,
+        transparent 100%
+    );
+}
+
+.Showing-one h2,
+.Showing-two h2{
+
+    margin:0;
+
+    font-family:"myFont";
+    font-size:25px;
+}
+
+.Showing-content {
+
+    display:flex;
+
+    gap:40px;
+
+    align-items:flex-start;
+
+}
+
+.Options {
+
+    width:340px;
+
+    background:#fdfbfa;
+
+    background-image:linear-gradient(165deg,#fdfbfa,#dfabab);
+
+    border-radius:25px;
+
+    padding:25px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+}
+
+
+.Movie-search {
+
+    width:88%;
+
+    height:45px;
+
+    border:none;
+
+    border-radius:25px;
+
+    padding:0 20px;
+
+    font-family:"myFont";
+
+    font-size:17px;
+
+}
+
+
+.Genre-select {
+
+    width:100%;
+
+    height:45px;
+
+    border:none;
+
+    border-radius:25px;
+
+    padding:0 20px;
+
+    font-family:"myFont";
+
+    font-size:17px;
+
+}
+
+
