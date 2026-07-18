@@ -26,7 +26,7 @@
 
         <li class="Logout">
         <img src="Assets/UI-icons/Logout.png" class="Logout-icon" width="26px">
-        <a href="Login.php">
+        <a href="logout.php">
         Log Out
         </a>
         </li>
