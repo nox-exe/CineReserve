@@ -55,6 +55,13 @@ nav a {
     font-family: "myFont", serif;
 }
 
+.Logo {
+    display: block;
+    margin: 0 auto;
+    width: 150px;
+    height: auto;
+}
+
 .Logout {
     margin-top: auto;
 }
