@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require 'db.php';
 
 $popular_query = "SELECT m.movie_id, m.title, m.description, m.duration_minutes, m.poster_url, 
@@ -36,7 +36,7 @@ if ($genre !== 'All Genres' && !empty($genre)) {
     $params[] = $genre;
 }
 
-$showing_query .= " ORDER BY release_date DESC";
+$showing_query .= " ORDER BY release_date ASC";
 
 $stmt = $conn->prepare($showing_query);
 if (!empty($types)) {
@@ -75,10 +75,12 @@ $conn->close();
 
   
         <li class="Logout">
-        <img src="Assets/UI-icons/Logout.png" class="Logout-icon" width="26px">
-        <a href="Login.php">
-        Log Out
-        </a>
+            <img src="Assets/UI-icons/Logout.png" class="Logout-icon" width="26px">
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <a href="Logout.php">Log Out</a>
+            <?php else: ?>
+                <a href="Login.php">Log In</a>
+            <?php endif; ?>
         </li>
 
     </ul>

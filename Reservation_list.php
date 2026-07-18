@@ -1,5 +1,12 @@
 <?php
+session_start();
+require 'db.php';
 
+$query = "SELECT * FROM movies ORDER BY release_date ASC";
+$result = $conn->query($query);
+$movies = $result->fetch_all(MYSQLI_ASSOC);
+
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -8,173 +15,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="Reservation_List.css">
-    <title>CineReserve</title>
+    <title>CineReserve - Reservation List</title>
 </head>
 <body>
     <nav class="Navigation">
         <a href="Home.php">
-        <img src="" class="Logo">
+            <img src="" class="Logo" alt="Logo">
         </a>
-    <ul>
-
-        <li>
-        <img src="Assets/UI-icons/Reservation.png" class="Reservation-icon" width="30px">
-        <a href="Reservation_list.php">
-        Reservation
-        </a>
+        <ul>
+            <li>
+                <img src="Assets/UI-icons/Reservation.png" class="Reservation-icon" width="30px">
+                <a href="Reservation_list.php">Reservation</a>
+            </li>
+            <li class="Logout">
+            <img src="Assets/UI-icons/Logout.png" class="Logout-icon" width="26px">
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <a href="Logout.php">Log Out</a>
+            <?php else: ?>
+                <a href="Login.php">Log In</a>
+            <?php endif; ?>
         </li>
-
-        <li class="Logout">
-        <img src="Assets/UI-icons/Logout.png" class="Logout-icon" width="26px">
-        <a href="Login.php">
-        Log Out
-        </a>
-        </li>
-
-    </ul>
+        </ul>
     </nav>
+    
     <main class="Main">
+        <h2 class="Reservation-title">Reservation List</h2>
+        <section class="reservation-container">
 
-<h2 class="Reservation-title">Reservation List</h2>
-<section class="reservation-container">
+            <?php foreach ($movies as $movie): ?>
+            <!-- MOVIE CARD -->
+            <section class="First-Movie">
+                <section class="First">
+                    <div class="Screening">
+                        <?= htmlspecialchars($movie['duration_minutes']) ?> Mins
+                    </div>
+                    <div class="First-img-container">
+                        <img src="<?= htmlspecialchars($movie['poster_url']) ?>" alt="Poster">
+                    </div>
+                </section>
 
-    <!-- FIRST MOVIE -->
-    <section class="First-Movie">
-
-        <section class="First">
-
-            <div class="Screening">
-            89 Mins
-            </div>
-
-            <div class="First-img-container">
-                <img src="Assets/Movie-posters/Minions.webp">
-            </div>
-
-        </section>
-
-        <div class="Reserve-container">
-            <h2>
-                <a href="Reservation_Minions.php">RESERVE</a>
-            </h2>
-        </div>
-
-    </section>
-
-    <!-- SECOND MOVIE -->
-    <section class="Second-Movie">
-
-        <section class="Second">
-
-            <div class="Screening">
-            102 Mins
-            </div>
-
-            <div class="Second-img-container">
-                <img src="Assets/Movie-posters/Doraemon.jpg">
-            </div>
+                <div class="Reserve-container">
+                    <h2>
+                        <a href="Reservation.php?movie_id=<?= $movie['movie_id'] ?>">RESERVE</a>
+                    </h2>
+                </div>
+            </section>
+            <?php endforeach; ?>
 
         </section>
-
-        <div class="Reserve-container">
-            <h2>
-                <a href="Reservation_Doraemon.php">RESERVE</a>
-            </h2>
-        </div>
-
-    </section>
-
-    <!-- THIRD MOVIE -->
-    <section class="Third-Movie">
-
-        <section class="Third">
-
-            <div class="Screening">
-            99 Mins
-            </div>
-
-            <div class="Third-img-container">
-                <img src="Assets/Movie-posters/Insidious.jpg">
-            </div>
-
-        </section>
-
-        <div class="Reserve-container">
-            <h2>
-                <a href="Reservation_Insidious.php">RESERVE</a>
-            </h2>
-        </div>
-
-    </section>
-
-    <!-- FOURTH MOVIE -->
-    <section class="Fourth-Movie">
-
-        <section class="Fourth">
-
-            <div class="Screening">
-            115 Mins
-            </div>
-
-            <div class="Fourth-img-container">
-                <img src="Assets/Movie-posters/Moana.jpg">
-            </div>
-
-        </section>
-
-        <div class="Reserve-container">
-            <h2>
-                <a href="Reservation_Moana.php">RESERVE</a>
-            </h2>
-        </div>
-
-    </section>
-
-    <!-- FIFTH MOVIE -->
-    <section class="Fifth-Movie">
-
-        <section class="Fifth">
-
-            <div class="Screening">
-            173 Mins
-            </div>
-
-            <div class="Fifth-img-container">
-                <img src="Assets/Movie-posters/Odyssey.jpg">
-            </div>
-
-        </section>
-
-        <div class="Reserve-container">
-            <h2>
-                <a href="Reservation_Odyssey.php">RESERVE</a>
-            </h2>
-        </div>
-
-    </section>
-
-    <!-- SIXTH MOVIE -->
-    <section class="Sixth-Movie">
-
-        <section class="Sixth">
-
-            <div class="Screening">
-            144 Mins
-            </div>
-
-            <div class="Sixth-img-container">
-                <img src="Assets/Movie-posters/Spiderman.jpg">
-            </div>
-
-        </section>
-
-        <div class="Reserve-container">
-            <h2>
-                <a href="Reservation_Spiderman.php">RESERVE</a>
-            </h2>
-        </div>
-
-    </section>
-
-</section>
     </main>
+</body>
+</html>
