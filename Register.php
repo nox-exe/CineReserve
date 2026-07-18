@@ -12,7 +12,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
-    if ($password !== $confirm_password) {
+    if (empty($full_name) || empty($email) || empty($password) || empty($confirm_password)) {
+        $error = "Please fill out all required fields.";
+    } else if ($password !== $confirm_password) {
         $error = "Passwords do not match!";
     } else {
         $check_stmt = $conn->prepare("SELECT user_id FROM users WHERE email = ?");
