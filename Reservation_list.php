@@ -12,9 +12,9 @@
 </head>
 <body>
     <nav class="Navigation">
-        <a href="Home.php">
-        <img src="" class="Logo">
-        </a>
+    <a href="Home.php">
+        <img src="Assets/UI-icons/Logo.png" class="Logo" alt ="Logo" width="150px">
+    </a>
     <ul>
 
         <li>
