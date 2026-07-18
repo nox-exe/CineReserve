@@ -28,7 +28,7 @@ $conn->close();
         <a href="Reservation_list.php">
         Reservation
         </a>
-        <ul>
+        <li>
 
         <li class="Logout">
         <img src="Assets/UI-icons/Logout.png" class="Logout-icon" width="26px">
