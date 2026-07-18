@@ -132,7 +132,7 @@ $conn->close();
 <body>
     <nav class="Navigation">
         <a href="Home.php">
-            <img src="" class="Logo" alt="Logo">
+        <img src="Assets/UI-icons/Logo.png" class="Logo" alt ="Logo" width="150px">
         </a>
         <ul>
             <li>
