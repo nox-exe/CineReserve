@@ -19,23 +19,26 @@ $conn->close();
 </head>
 <body>
     <nav class="Navigation">
-        <a href="Home.php">
-            <img src="" class="Logo" alt="Logo">
+    <a href="Home.php">
+        <img src="Assets/UI-icons/Logo.png" class="Logo" alt ="Logo" width="150px">
+    </a>
+    <ul>
+        <li>
+        <img src="Assets/UI-icons/Reservation.png" class="Reservation-icon" width="30px">
+        <a href="Reservation_list.php">
+        Reservation
         </a>
         <ul>
-            <li>
-                <img src="Assets/UI-icons/Reservation.png" class="Reservation-icon" width="30px">
-                <a href="Reservation_list.php">Reservation</a>
-            </li>
-            <li class="Logout">
-            <img src="Assets/UI-icons/Logout.png" class="Logout-icon" width="26px">
-            <?php if (isset($_SESSION['user_id'])): ?>
-                <a href="Logout.php">Log Out</a>
-            <?php else: ?>
-                <a href="Login.php">Log In</a>
-            <?php endif; ?>
+
+        <li class="Logout">
+        <img src="Assets/UI-icons/Logout.png" class="Logout-icon" width="26px">
+        <?php if (isset($_SESSION['user_id'])): ?>
+            <a href="Logout.php">Log Out</a>
+        <?php else: ?>
+            <a href="Login.php">Log In</a>
+        <?php endif; ?>
         </li>
-        </ul>
+    </ul>
     </nav>
     
     <main class="Main">
