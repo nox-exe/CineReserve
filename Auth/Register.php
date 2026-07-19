@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'db.php';
+require '../db.php';
 
 $error = '';
 $success = '';
@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = "An account with this email already exists.";
         } else {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-            $role = 'customer'; // Default role
+            $role = 'customer';
 
             $insert_stmt = $conn->prepare("INSERT INTO users (full_name, email, password_hash, phone_number, role) VALUES (?, ?, ?, ?, ?)");
             $insert_stmt->bind_param("sssss", $full_name, $email, $hashed_password, $phone_number, $role);

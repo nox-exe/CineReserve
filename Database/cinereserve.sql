@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 18, 2026 at 01:20 AM
+-- Generation Time: Jul 19, 2026 at 05:52 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -75,7 +75,11 @@ CREATE TABLE `reservations` (
 INSERT INTO `reservations` (`reservation_id`, `user_id`, `schedule_id`, `total_amount`, `status`, `reservation_date`) VALUES
 (1, 1, 1, 700.00, 'confirmed', '2026-07-17 15:45:21'),
 (2, 1, 7, 1900.00, 'confirmed', '2026-07-17 23:02:13'),
-(3, 1, 3, 300.00, 'confirmed', '2026-07-17 23:02:13');
+(3, 1, 3, 300.00, 'confirmed', '2026-07-17 23:02:13'),
+(4, 3, 17, 380.00, 'confirmed', '2026-07-18 00:35:14'),
+(5, 4, 17, 380.00, 'confirmed', '2026-07-18 04:04:52'),
+(6, 4, 17, 1140.00, 'confirmed', '2026-07-18 04:05:28'),
+(7, 4, 18, 380.00, 'confirmed', '2026-07-18 04:08:17');
 
 -- --------------------------------------------------------
 
@@ -101,7 +105,13 @@ INSERT INTO `reservation_seats` (`reservation_seat_id`, `reservation_id`, `seat_
 (6, 2, 1563),
 (7, 2, 1564),
 (8, 2, 1565),
-(9, 3, 121);
+(9, 3, 121),
+(10, 4, 361),
+(11, 5, 362),
+(12, 6, 367),
+(13, 6, 368),
+(14, 6, 369),
+(15, 7, 1081);
 
 -- --------------------------------------------------------
 
@@ -130,7 +140,21 @@ INSERT INTO `schedules` (`schedule_id`, `movie_id`, `screen_id`, `show_date`, `s
 (4, 2, 2, '2026-07-18', '14:00:00', 300.00, '2026-07-17 15:45:07'),
 (5, 3, 3, '2026-07-18', '12:00:00', 350.00, '2026-07-17 15:45:07'),
 (6, 4, 13, '2026-07-29', '18:00:00', 400.00, '2026-07-17 15:45:07'),
-(7, 5, 14, '2026-07-25', '20:00:00', 380.00, '2026-07-17 15:45:07');
+(7, 5, 14, '2026-07-25', '20:00:00', 380.00, '2026-07-17 15:45:07'),
+(8, 1, 7, '2026-07-20', '14:00:00', 350.00, '2026-07-17 23:54:57'),
+(9, 1, 7, '2026-07-20', '18:30:00', 400.00, '2026-07-17 23:54:57'),
+(10, 1, 13, '2026-07-21', '15:00:00', 380.00, '2026-07-17 23:54:57'),
+(11, 2, 8, '2026-07-20', '11:00:00', 300.00, '2026-07-17 23:54:57'),
+(12, 2, 15, '2026-07-21', '13:30:00', 320.00, '2026-07-17 23:54:57'),
+(13, 3, 3, '2026-07-19', '15:00:00', 350.00, '2026-07-17 23:54:57'),
+(14, 3, 9, '2026-07-21', '16:00:00', 350.00, '2026-07-17 23:54:57'),
+(15, 4, 1, '2026-07-30', '13:00:00', 400.00, '2026-07-17 23:54:57'),
+(16, 4, 13, '2026-07-30', '21:00:00', 420.00, '2026-07-17 23:54:57'),
+(17, 5, 4, '2026-07-19', '10:00:00', 380.00, '2026-07-17 23:54:57'),
+(18, 5, 10, '2026-07-22', '14:30:00', 380.00, '2026-07-17 23:54:57'),
+(19, 6, 5, '2026-08-20', '21:00:00', 450.00, '2026-07-17 23:54:57'),
+(20, 6, 11, '2026-08-20', '18:00:00', 400.00, '2026-07-17 23:54:57'),
+(21, 6, 16, '2026-08-21', '22:30:00', 450.00, '2026-07-17 23:54:57');
 
 -- --------------------------------------------------------
 
@@ -2398,8 +2422,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `full_name`, `email`, `password_hash`, `phone_number`, `role`, `created_at`, `updated_at`) VALUES
-(1, 'Juan Dela Cruz', 'juan@example.com', '$2y$10$hashedpassword1', '09171234567', 'customer', '2026-07-17 15:42:01', '2026-07-17 15:42:01'),
-(2, 'Maria Santos', 'maria@example.com', '$2y$10$hashedpassword2', '09179876543', 'admin', '2026-07-17 15:42:01', '2026-07-17 15:42:01');
+(1, 'Juan Dela Cruz', 'juan@example.com', '$2y$10$ez25ESGKQbs2ynCuoQlVn.VNGh5OYG7R8FNNxuocNAoqWKpEGs4Ai', '09171234567', 'customer', '2026-07-17 15:42:01', '2026-07-18 03:23:37'),
+(2, 'Maria Santos', 'maria@example.com', '$2y$10$ez25ESGKQbs2ynCuoQlVn.VNGh5OYG7R8FNNxuocNAoqWKpEGs4Ai', '09179876543', 'admin', '2026-07-17 15:42:01', '2026-07-18 03:23:29'),
+(3, 'John Doe', 'john@example.com', '$2y$10$ez25ESGKQbs2ynCuoQlVn.VNGh5OYG7R8FNNxuocNAoqWKpEGs4Ai', '09000000000', 'customer', '2026-07-18 00:34:57', '2026-07-18 00:34:57'),
+(4, 'Jane Doe', 'jane@example.com', '$2y$10$OouQFWN0Qw7YRledt9pB/e0pqmXj/duV2dIMhoGwnlMDvRMWbsHXC', '090000000000', 'customer', '2026-07-18 04:04:12', '2026-07-18 04:04:12');
 
 --
 -- Indexes for dumped tables
@@ -2476,19 +2502,19 @@ ALTER TABLE `movies`
 -- AUTO_INCREMENT for table `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `reservation_seats`
 --
 ALTER TABLE `reservation_seats`
-  MODIFY `reservation_seat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `reservation_seat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `schedules`
 --
 ALTER TABLE `schedules`
-  MODIFY `schedule_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `schedule_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `screens`
@@ -2512,7 +2538,7 @@ ALTER TABLE `theaters`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables

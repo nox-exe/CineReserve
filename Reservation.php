@@ -7,54 +7,59 @@ $message = "";
 $messageType = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
+
     if (!isset($_SESSION['user_id'])) {
         $message = "You must be logged in to reserve seats.";
         $messageType = "error";
     } else {
         $user_id = $_SESSION['user_id'];
-        $post_schedule_id = (int)$_POST['schedule_id'];
-        $row = $_POST['row'];
-        $start_seat_num = (int)$_POST['seat_num'];
-        $seat_count = (int)$_POST['seat_count'];
+        $post_schedule_id = (int)($_POST['schedule_id'] ?? 0);
 
-        $sched_info_stmt = $conn->prepare("SELECT ticket_price, screen_id FROM schedules WHERE schedule_id = ?");
-        $sched_info_stmt->bind_param("i", $post_schedule_id);
-        $sched_info_stmt->execute();
-        $sched_info = $sched_info_stmt->get_result()->fetch_assoc();
-        $sched_info_stmt->close();
+        $seat_ids_raw = $_POST['seat_ids'] ?? '';
+        $seat_ids = array_values(array_unique(array_filter(array_map('intval', explode(',', $seat_ids_raw)))));
+        $seat_count = count($seat_ids);
 
-        if ($sched_info) {
-            $total_amount = $sched_info['ticket_price'] * $seat_count;
-            $screen_id = $sched_info['screen_id'];
-            $end_seat_num = $start_seat_num + $seat_count - 1;
-            if ($end_seat_num > 12) {
-                $message = "Error: Not enough seats in this row starting from Seat $start_seat_num.";
+        if ($post_schedule_id <= 0 || $seat_count === 0) {
+            $message = "Please choose a schedule and at least one seat.";
+            $messageType = "error";
+        } else {
+            $sched_info_stmt = $conn->prepare("SELECT ticket_price, screen_id FROM schedules WHERE schedule_id = ?");
+            $sched_info_stmt->bind_param("i", $post_schedule_id);
+            $sched_info_stmt->execute();
+            $sched_info = $sched_info_stmt->get_result()->fetch_assoc();
+            $sched_info_stmt->close();
+
+            if (!$sched_info) {
+                $message = "Error: Invalid schedule selected.";
                 $messageType = "error";
             } else {
-                $seat_ids = [];
-                $seat_stmt = $conn->prepare("SELECT seat_id FROM seats WHERE screen_id = ? AND seat_row = ? AND seat_number BETWEEN ? AND ?");
-                $seat_stmt->bind_param("isii", $screen_id, $row, $start_seat_num, $end_seat_num);
-                $seat_stmt->execute();
-                $seat_result = $seat_stmt->get_result();
-                while ($seat_row = $seat_result->fetch_assoc()) {
-                    $seat_ids[] = $seat_row['seat_id'];
-                }
-                $seat_stmt->close();
+                $ticket_price = $sched_info['ticket_price'];
+                $screen_id = $sched_info['screen_id'];
 
-                if (count($seat_ids) !== $seat_count) {
-                    $message = "Error: Could not locate those exact seats in the system.";
+                $placeholders = implode(',', array_fill(0, $seat_count, '?'));
+                $seat_lookup_stmt = $conn->prepare(
+                    "SELECT seat_id FROM seats WHERE screen_id = ? AND seat_id IN ($placeholders)"
+                );
+                $types = "i" . str_repeat("i", $seat_count);
+                $params = array_merge([$screen_id], $seat_ids);
+                $seat_lookup_stmt->bind_param($types, ...$params);
+                $seat_lookup_stmt->execute();
+                $seat_rows = $seat_lookup_stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+                $seat_lookup_stmt->close();
+
+                if (count($seat_rows) !== $seat_count) {
+                    $message = "Error: One or more selected seats are invalid for this schedule.";
                     $messageType = "error";
                 } else {
-                    $placeholders = implode(',', array_fill(0, count($seat_ids), '?'));
-                    $check_query = "SELECT COUNT(*) as booked FROM reservation_seats rs 
-                                    JOIN reservations r ON rs.reservation_id = r.reservation_id 
+                    $total_amount = $seat_count * $ticket_price;
+
+                    $check_query = "SELECT COUNT(*) as booked FROM reservation_seats rs
+                                    JOIN reservations r ON rs.reservation_id = r.reservation_id
                                     WHERE r.schedule_id = ? AND r.status != 'cancelled' AND rs.seat_id IN ($placeholders)";
-                    
                     $check_stmt = $conn->prepare($check_query);
-                    $types = "i" . str_repeat("i", count($seat_ids));
-                    $params = array_merge([$post_schedule_id], $seat_ids);
-                    $check_stmt->bind_param($types, ...$params);
+                    $check_types = "i" . str_repeat("i", $seat_count);
+                    $check_params = array_merge([$post_schedule_id], $seat_ids);
+                    $check_stmt->bind_param($check_types, ...$check_params);
                     $check_stmt->execute();
                     $booked_count = $check_stmt->get_result()->fetch_assoc()['booked'];
                     $check_stmt->close();
@@ -89,9 +94,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 }
             }
-        } else {
-            $message = "Error: Invalid schedule selected.";
-            $messageType = "error";
         }
     }
 }
@@ -105,11 +107,11 @@ $movie_stmt->close();
 if (!$movie) { die("Movie not found."); }
 
 $sched_query = "
-    SELECT s.schedule_id, t.name AS theater_name, s.show_date, s.show_time, s.ticket_price
+    SELECT s.schedule_id, s.screen_id, t.name AS theater_name, s.show_date, s.show_time, s.ticket_price
     FROM schedules s
     JOIN screens scr ON s.screen_id = scr.screen_id
     JOIN theaters t ON scr.theater_id = t.theater_id
-    WHERE s.movie_id = ? 
+    WHERE s.movie_id = ?
     ORDER BY s.show_date, s.show_time
 ";
 $sched_stmt = $conn->prepare($sched_query);
@@ -117,6 +119,48 @@ $sched_stmt->bind_param("i", $movie_id);
 $sched_stmt->execute();
 $schedules = $sched_stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 $sched_stmt->close();
+
+$seatsData = [];
+$screenSeatsCache = [];
+
+foreach ($schedules as $sched) {
+    $sid = (int)$sched['schedule_id'];
+    $screen_id = (int)$sched['screen_id'];
+
+    if (!isset($screenSeatsCache[$screen_id])) {
+        $seat_q = $conn->prepare("SELECT seat_id, seat_row, seat_number FROM seats WHERE screen_id = ? ORDER BY seat_row, seat_number");
+        $seat_q->bind_param("i", $screen_id);
+        $seat_q->execute();
+        $screenSeatsCache[$screen_id] = $seat_q->get_result()->fetch_all(MYSQLI_ASSOC);
+        $seat_q->close();
+    }
+
+    $booked_q = $conn->prepare(
+        "SELECT rs.seat_id FROM reservation_seats rs
+         JOIN reservations r ON rs.reservation_id = r.reservation_id
+         WHERE r.schedule_id = ? AND r.status != 'cancelled'"
+    );
+    $booked_q->bind_param("i", $sid);
+    $booked_q->execute();
+    $bookedSet = array_flip(array_column($booked_q->get_result()->fetch_all(MYSQLI_ASSOC), 'seat_id'));
+    $booked_q->close();
+
+    $seatList = [];
+    foreach ($screenSeatsCache[$screen_id] as $s) {
+        $seatList[] = [
+            'id'       => (int)$s['seat_id'],
+            'row'      => $s['seat_row'],
+            'num'      => (int)$s['seat_number'],
+            'price'    => round($sched['ticket_price'], 2),
+            'occupied' => isset($bookedSet[$s['seat_id']]),
+        ];
+    }
+
+    $seatsData[$sid] = [
+        'ticket_price' => (float)$sched['ticket_price'],
+        'seats'        => $seatList,
+    ];
+}
 
 $conn->close();
 ?>
@@ -126,30 +170,42 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="Reservation.css">
+    <link rel="stylesheet" href="CSS/Reservation.css">
     <title>Reserve - <?= htmlspecialchars($movie['title']) ?></title>
 </head>
 <body>
     <nav class="Navigation">
         <a href="Home.php">
-        <img src="Assets/UI-icons/Logo.png" class="Logo" alt ="Logo" width="150px">
+            <img src="Assets/UI-icons/Logo.png" class="Logo" alt="Logo" width="150px">
         </a>
         <ul>
             <li>
                 <img src="Assets/UI-icons/Reservation.png" class="Reservation-icon" width="30px">
-                <a href="Reservation_list.php">Reservation</a>
+                <a href="Reservation_List.php" style="font-weight: bold; color: #bd5b62;">Movies</a>
             </li>
+
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <li>
+                    <img src="" class="Tickets-icon" width="26px">
+                    <a href="My_Tickets.php">My Tickets</a>
+                </li>
+                <li>
+                    <img src="" class="Profile-icon" width="26px">
+                    <a href="Profile.php">Profile</a>
+                </li>
+            <?php endif; ?>
+      
             <li class="Logout">
                 <img src="Assets/UI-icons/Logout.png" class="Logout-icon" width="26px">
                 <?php if (isset($_SESSION['user_id'])): ?>
-                    <a href="Logout.php">Log Out</a>
+                    <a href="Auth/Logout.php">Log Out</a>
                 <?php else: ?>
-                    <a href="Login.php">Log In</a>
+                    <a href="Auth/Login.php">Log In</a>
                 <?php endif; ?>
             </li>
         </ul>
     </nav>
-    
+
     <main class="Main">
         <h2 class="title">Reservation</h2>
 
@@ -158,11 +214,11 @@ $conn->close();
                 <?= htmlspecialchars($message) ?>
             </div>
         <?php endif; ?>
-        
+
         <section class="reservation-container">
             <section class="First-Movie">
                 <section class="First">
-                    
+
                     <div class="header">
                         <div class="First-img-container">
                             <img src="<?= htmlspecialchars($movie['poster_url']) ?>" alt="Poster">
@@ -173,16 +229,16 @@ $conn->close();
                             <p><?= htmlspecialchars($movie['description']) ?></p>
                         </div>
 
-                        <div class="Price-container">
+                        <div class="Price-container" id="basePriceTag">
                             ₱<?= !empty($schedules) ? number_format($schedules[0]['ticket_price'], 2) : 'TBD' ?>
                         </div>
                     </div>
 
                     <div class="body-container">
                         <div class="details">
-                            
-                            <form method="POST" action="Reservation.php?movie_id=<?= $movie_id ?>">
-                                
+
+                            <form method="POST" action="Reservation.php?movie_id=<?= $movie_id ?>" id="reservationForm">
+
                                 <div class="time-container">
                                     <label for="schedule_id">Choose Schedule:</label>
                                     <select id="schedule_id" name="schedule_id" required style="width: 100%; padding: 10px; border-radius: 12px; font-family: 'myFont';">
@@ -190,9 +246,9 @@ $conn->close();
                                             <option value="">No schedules available</option>
                                         <?php else: ?>
                                             <?php foreach ($schedules as $sched): ?>
-                                                <option value="<?= $sched['schedule_id'] ?>">
-                                                    <?= htmlspecialchars($sched['theater_name']) ?> | 
-                                                    <?= date('M j, Y', strtotime($sched['show_date'])) ?> at 
+                                                <option value="<?= $sched['schedule_id'] ?>" data-price="<?= $sched['ticket_price'] ?>">
+                                                    <?= htmlspecialchars($sched['theater_name']) ?> |
+                                                    <?= date('M j, Y', strtotime($sched['show_date'])) ?> at
                                                     <?= date('g:i A', strtotime($sched['show_time'])) ?>
                                                 </option>
                                             <?php endforeach; ?>
@@ -203,47 +259,36 @@ $conn->close();
                                 <div class="seat-container">
                                     <h2>Choose Seating</h2>
 
-                                    <label>Row:</label>
-                                    <select id="row" name="row" required>
-                                        <option value="A">Row A</option>
-                                        <option value="B">Row B</option>
-                                        <option value="C">Row C</option>
-                                        <option value="D">Row D</option>
-                                        <option value="E">Row E</option>
-                                        <option value="F">Row F</option>
-                                        <option value="G">Row G</option>
-                                        <option value="H">Row H</option>
-                                        <option value="I">Row I (Premium)</option>
-                                        <option value="J">Row J (VIP)</option>
-                                    </select>
+                                    <ul class="seat-legend">
+                                        <li><span class="seat legend-swatch"></span> Available</li>
+                                        <li><span class="seat legend-swatch selected"></span> Selected</li>
+                                        <li><span class="seat legend-swatch occupied"></span> Occupied</li>
+                                    </ul>
 
-                                    <label>Starting Seat Number:</label>
-                                    <select id="seat_num" name="seat_num" required>
-                                        <?php for($i = 1; $i <= 12; $i++): ?>
-                                            <option value="<?= $i ?>">Seat <?= $i ?></option>
-                                        <?php endfor; ?>
-                                    </select>
+                                    <div class="screen-visual">SCREEN</div>
 
-                                    <label>Number of Seats:</label>
-                                    <select id="seat_count" name="seat_count" required>
-                                        <option value="1">1 Seat</option>
-                                        <option value="2">2 Seats</option>
-                                        <option value="3">3 Seats</option>
-                                        <option value="4">4 Seats</option>
-                                        <option value="5">5 Seats</option>
-                                    </select>
+                                    <div class="seat-map" id="seatMap">
+                                        <!-- populated by JS -->
+                                    </div>
+
+                                    <p class="seat-summary">
+                                        You have selected <span id="seatCount">0</span> seat(s) for a total of
+                                        ₱<span id="seatTotal">0.00</span>
+                                    </p>
+
+                                    <input type="hidden" id="selected_seats" name="seat_ids" value="">
 
                                     <?php if (isset($_SESSION['user_id'])): ?>
-                                        <button type="submit" class="confirm-seat">Confirm Seat</button>
+                                        <button type="submit" class="confirm-seat" id="confirmBtn" disabled>Confirm Seat</button>
                                     <?php else: ?>
-                                        <button type="button" class="confirm-seat" onclick="window.location.href='Login.php?msg=Please log in to make a reservation.'">Log In to Reserve</button>
+                                        <button type="button" class="confirm-seat" onclick="window.location.href='Auth/Login.php?msg=Please log in to make a reservation.'">Log In to Reserve</button>
                                     <?php endif; ?>
-                                    
+
                                 </div>
-                            </form> 
+                            </form>
 
                         </div>
-                        
+
                         <div class="Reserve-container"></div>
                     </div>
 
@@ -251,5 +296,10 @@ $conn->close();
             </section>
         </section>
     </main>
+
+    <script>
+        window.seatsData = <?= json_encode($seatsData) ?>;
+    </script>
+    <script src="JS/Reservation.js"></script>
 </body>
 </html>

@@ -14,31 +14,40 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="Reservation_List.css">
+    <link rel="stylesheet" href="CSS/Reservation_List.css">
     <title>CineReserve - Reservation List</title>
 </head>
 <body>
     <nav class="Navigation">
-    <a href="Home.php">
-        <img src="Assets/UI-icons/Logo.png" class="Logo" alt ="Logo" width="150px">
-    </a>
-    <ul>
-        <li>
-        <img src="Assets/UI-icons/Reservation.png" class="Reservation-icon" width="30px">
-        <a href="Reservation_list.php">
-        Reservation
+        <a href="Home.php">
+            <img src="Assets/UI-icons/Logo.png" class="Logo" alt="Logo" width="150px">
         </a>
-        <li>
+        <ul>
+            <li>
+                <img src="Assets/UI-icons/Reservation.png" class="Reservation-icon" width="30px">
+                <a href="Reservation_List.php" style="font-weight: bold; color: #bd5b62;">Movies</a>
+            </li>
 
-        <li class="Logout">
-        <img src="Assets/UI-icons/Logout.png" class="Logout-icon" width="26px">
-        <?php if (isset($_SESSION['user_id'])): ?>
-            <a href="Logout.php">Log Out</a>
-        <?php else: ?>
-            <a href="Login.php">Log In</a>
-        <?php endif; ?>
-        </li>
-    </ul>
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <li>
+                    <img src="" class="Tickets-icon" width="26px">
+                    <a href="My_Tickets.php">My Tickets</a>
+                </li>
+                <li>
+                    <img src="" class="Profile-icon" width="26px">
+                    <a href="Profile.php">Profile</a>
+                </li>
+            <?php endif; ?>
+      
+            <li class="Logout">
+                <img src="Assets/UI-icons/Logout.png" class="Logout-icon" width="26px">
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <a href="Auth/Logout.php">Log Out</a>
+                <?php else: ?>
+                    <a href="Auth/Login.php">Log In</a>
+                <?php endif; ?>
+            </li>
+        </ul>
     </nav>
     
     <main class="Main">
