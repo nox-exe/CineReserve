@@ -100,6 +100,12 @@ $conn->close();
                     <img src="" class="Profile-icon" width="26px">
                     <a href="Profile.php">Profile</a>
                 </li>
+                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                    <li>
+                        <img src="" class="Admin-icon" width="26px">
+                        <a href="Admin_Dashboard.php" style="color: #bd5b62; font-weight: bold;">Admin Panel</a>
+                    </li>
+                <?php endif; ?>
             <?php endif; ?>
             <li class="Logout">
                 <img src="Assets/UI-icons/Logout.png" class="Logout-icon" width="26px">

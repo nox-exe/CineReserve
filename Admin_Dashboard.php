@@ -37,11 +37,11 @@ $status_query = "SELECT status, COUNT(*) AS total, SUM(total_amount) AS total_va
                  GROUP BY status";
 $status_breakdown = $conn->query($status_query)->fetch_all(MYSQLI_ASSOC);
 
-$active_customers_query = "SELECT u.full_name, u.email, COUNT(r.reservation_id) AS total_bookings, SUM(r.total_amount) AS total_spent
+$active_customers_query = "SELECT u.email, COUNT(r.reservation_id) AS total_bookings, SUM(r.total_amount) AS total_spent
                            FROM users u
                            JOIN reservations r ON r.user_id = u.user_id
                            WHERE r.status = 'confirmed'
-                           GROUP BY u.user_id, u.full_name, u.email
+                           GROUP BY u.user_id, u.email
                            ORDER BY total_spent DESC LIMIT 5";
 $active_customers = $conn->query($active_customers_query)->fetch_all(MYSQLI_ASSOC);
 
@@ -150,7 +150,6 @@ $conn->close();
                 <table class="admin-table">
                     <thead>
                         <tr>
-                            <th>Customer Name</th>
                             <th>Email</th>
                             <th>Bookings</th>
                             <th>Total Spent</th>
@@ -159,7 +158,6 @@ $conn->close();
                     <tbody>
                         <?php foreach ($active_customers as $row): ?>
                         <tr>
-                            <td><?= htmlspecialchars($row['full_name']) ?></td>
                             <td><?= htmlspecialchars($row['email']) ?></td>
                             <td><?= $row['total_bookings'] ?></td>
                             <td class="highlight">₱<?= number_format($row['total_spent'] ?? 0, 2) ?></td>
