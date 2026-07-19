@@ -1,0 +1,177 @@
+@font-face {
+    font-family: "myFont";
+    src: url("../Assets/Font/glacial-indifference/GlacialIndifference-Regular.otf");
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "myFont";
+    src: url("../Assets/Font/glacial-indifference/GlacialIndifference-Bold.otf");
+    font-weight: 700;
+}
+
+body {
+    margin: 0;
+    background: #272727; 
+    color: #f1f1f1;
+    font-family: "myFont", serif;
+}
+
+/* NAVIGATION */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 100vh;
+    background: #fdfbfa;
+    background-image: linear-gradient(165deg, #fdfbfa, #dfabab);
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 10px;
+    gap: 15px;
+}
+
+nav ul li {
+    display: flex;
+    align-items: center;
+}
+
+nav a {
+    color: #272727;
+    text-decoration: none;
+    font-size: 20px;
+    transition: 0.2s;
+}
+
+nav a:hover {
+    color: #bd5b62;
+}
+
+.Logo {
+    display: block;
+    margin: 0 auto 30px auto;
+    width: 150px;
+}
+
+.Logout {
+    margin-top: auto;
+}
+
+/* MAIN CONTENT */
+.Main {
+    margin-left: 280px;
+    padding: 40px;
+}
+
+.Page-title {
+    color: #bd5b62;
+    font-size: 35px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid rgba(189, 91, 98, 0.3);
+    padding-bottom: 10px;
+}
+
+/* DASHBOARD STATS */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    background: #fdfbfa;
+    background-image: linear-gradient(165deg, #fdfbfa, #f1cccc);
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    color: #272727;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.stat-card h3 {
+    margin: 0 0 15px 0;
+    font-size: 20px;
+    color: #bd5b62;
+}
+
+.stat-card p {
+    margin: 0;
+    font-size: 45px;
+    font-weight: bold;
+}
+
+/* DASHBOARD TABLES */
+.dashboard-tables {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 30px;
+}
+
+.data-section {
+    background: #333;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.data-section h3 {
+    margin-top: 0;
+    color: #fdfbfa;
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.admin-table th, .admin-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #444;
+}
+
+.admin-table th {
+    color: #bd5b62;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.admin-table td {
+    color: #ddd;
+    font-size: 16px;
+}
+
+.admin-table td.highlight {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.admin-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* STATUS BADGES */
+.status-badge {
+    padding: 5px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.status-badge.confirmed { background: #4CAF50; color: white; }
+.status-badge.pending { background: #FFA726; color: white; }
+.status-badge.cancelled { background: #e53935; color: white; }
